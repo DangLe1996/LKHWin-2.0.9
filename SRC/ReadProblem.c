@@ -216,6 +216,8 @@ static void Read_DISPLAY_DATA_TYPE(void);
 static void Read_EDGE_DATA_FORMAT(void);
 static void Read_EDGE_DATA_SECTION(void);
 static void Read_EDGE_WEIGHT_FORMAT(void);
+void customInput(int DIMENSION, int** weightMatrix);
+static void PostInitialization();
 static void Read_EDGE_WEIGHT_SECTION(void);
 static void Read_EDGE_WEIGHT_TYPE(void);
 static void Read_FIXED_EDGES_SECTION(void);
@@ -780,6 +782,161 @@ static void Read_EDGE_WEIGHT_FORMAT()
         eprintf("Unknown EDGE_WEIGHT_FORMAT: %s", EdgeWeightFormat);
 }
 
+
+void customInput(int DIMENSION, int** weightMatrix) {
+
+    InitializeConstant();
+    int MOVE_TYPE = 5;
+    int PATCHING_C = 3;
+    int PATCHING_A = 2;
+    int RUNS = 10;
+    char* name = "RouteID_Test";
+    char* type = ATSP;
+
+    char* EDGE_WEIGHT_TYPE = "EXPLICIT";
+    char* EDGE_WEIGHT_FORMAT = "FULL_MATRIX";
+   /* char* OUTPUT_TOUR_FILE = "ATSP.txt";
+    char* PROBLEM_FILE = "ATSP.tsp";*/
+    MoveType = MOVE_TYPE;
+    PatchingC = PATCHING_C;
+    PatchingA = PATCHING_A;
+    Runs = RUNS;
+    ProblemType = type;
+    //ProblemFileName = PROBLEM_FILE;
+
+    //Read Data Parts
+    Dimension = DIMENSION;
+    DimensionSaved = Dimension;
+    WeightType = EXPLICIT;
+    Distance = Distance_EXPLICIT;
+    WeightFormat = FULL_MATRIX;
+
+    Node* Ni, * Nj;
+    int i, j, n, W;
+
+    CheckSpecificationPart();
+    if (!FirstNode)
+        CreateNodes();
+    n = Dimension / 2;
+    CostMatrix = (int*)calloc((size_t)n * n, sizeof(int));
+    for (Ni = FirstNode; Ni->Id <= n; Ni = Ni->Suc)
+        Ni->C = &CostMatrix[(size_t)(Ni->Id - 1) * n] - 1;
+
+    if (ProblemType == ATSP) {
+        n = Dimension / 2;
+        for (i = 1; i <= n; i++) {
+            Ni = &NodeSet[i];
+            for (j = 1; j <= n; j++) {
+                W = weightMatrix[i-1][j-1];
+                Ni->C[j] = W;
+                if (i != j && W > M)
+                    M = W;
+            }
+            Nj = &NodeSet[i + n];
+            FixEdge(Ni, Nj);
+        }
+        Distance = Distance_ATSP;
+        WeightType = -1;
+    }
+
+    PostInitialization();
+}
+static void PostInitialization() {
+
+    int i, K;
+    /* Adjust parameters */
+    if (Seed == 0)
+        Seed = (unsigned)time(0);
+    if (Precision == 0)
+        Precision = 100;
+    if (InitialStepSize == 0)
+        InitialStepSize = 1;
+    if (MaxSwaps < 0)
+        MaxSwaps = Dimension;
+    if (KickType > Dimension / 2)
+        KickType = Dimension / 2;
+    if (Runs == 0)
+        Runs = 10;
+    if (MaxCandidates > Dimension - 1)
+        MaxCandidates = Dimension - 1;
+    if (ExtraCandidates > Dimension - 1)
+        ExtraCandidates = Dimension - 1;
+    if (SubproblemSize >= Dimension)
+        SubproblemSize = Dimension;
+    else if (SubproblemSize == 0) {
+        if (AscentCandidates > Dimension - 1)
+            AscentCandidates = Dimension - 1;
+        if (InitialPeriod < 0) {
+            InitialPeriod = Dimension / 2;
+            if (InitialPeriod < 100)
+                InitialPeriod = 100;
+        }
+        if (Excess < 0)
+            Excess = 1.0 / Dimension;
+        if (MaxTrials == -1)
+            MaxTrials = Dimension;
+        MakeHeap(Dimension);
+    }
+   /* if (POPMUSIC_MaxNeighbors > Dimension - 1)
+        POPMUSIC_MaxNeighbors = Dimension - 1;
+    if (POPMUSIC_SampleSize > Dimension)
+        POPMUSIC_SampleSize = Dimension;*/
+  
+    if (Precision > 1 && (WeightType == EXPLICIT || ProblemType == ATSP)) {
+        int j, n = ProblemType == ATSP ? Dimension / 2 : Dimension;
+        for (i = 2; i <= n; i++) {
+            Node* N = &NodeSet[i];
+            for (j = 1; j < i; j++)
+                if (N->C[j] * Precision / Precision != N->C[j])
+                    eprintf("PRECISION (= %d) is too large", Precision);
+        }
+    }
+    C = WeightType == EXPLICIT ? C_EXPLICIT : C_FUNCTION;
+    D = WeightType == EXPLICIT ? D_EXPLICIT : D_FUNCTION;
+    if (SubsequentMoveType == 0)
+        SubsequentMoveType = MoveType;
+    K = MoveType >= SubsequentMoveType
+        || !SubsequentPatching ? MoveType : SubsequentMoveType;
+    if (PatchingC > K)
+        PatchingC = K;
+    if (PatchingA > 1 && PatchingA >= PatchingC)
+        PatchingA = PatchingC > 2 ? PatchingC - 1 : 1;
+    if (NonsequentialMoveType == -1 ||
+        NonsequentialMoveType > K + PatchingC + PatchingA - 1)
+        NonsequentialMoveType = K + PatchingC + PatchingA - 1;
+    if (PatchingC >= 1) {
+        BestMove = BestSubsequentMove = BestKOptMove;
+        if (!SubsequentPatching && SubsequentMoveType <= 5) {
+            MoveFunction BestOptMove[] =
+            { 0, 0, Best2OptMove, Best3OptMove,
+            Best4OptMove, Best5OptMove
+            };
+            BestSubsequentMove = BestOptMove[SubsequentMoveType];
+        }
+    }
+    else {
+        MoveFunction BestOptMove[] = { 0, 0, Best2OptMove, Best3OptMove,
+            Best4OptMove, Best5OptMove
+        };
+        BestMove = MoveType <= 5 ? BestOptMove[MoveType] : BestKOptMove;
+        BestSubsequentMove = SubsequentMoveType <= 5 ?
+            BestOptMove[SubsequentMoveType] : BestKOptMove;
+    }
+    if (ProblemType == HCP || ProblemType == HPP)
+        MaxCandidates = 0;
+    if (TraceLevel >= 1) {
+        printff("done\n");
+        PrintParameters();
+    }
+    else
+        printff("PROBLEM_FILE = %s\n",
+            ProblemFileName ? ProblemFileName : "");
+    
+  
+}
+
+
+
 static void Read_EDGE_WEIGHT_SECTION()
 {
     Node *Ni, *Nj;
@@ -823,7 +980,8 @@ static void Read_EDGE_WEIGHT_SECTION()
             }
             Distance = Distance_ATSP;
             WeightType = -1;
-        } else
+        } 
+        else {
             for (i = 1, Ni = FirstNode; i <= Dimension; i++, Ni = Ni->Suc) {
                 for (j = 1; j <= Dimension; j++) {
                     if (!fscanint(ProblemFile, &W))
@@ -834,6 +992,7 @@ static void Read_EDGE_WEIGHT_SECTION()
                         Ni->C[j] = W;
                 }
             }
+        }
         break;
     case UPPER_ROW:
         for (i = 1, Ni = FirstNode; i < Dimension; i++, Ni = Ni->Suc) {

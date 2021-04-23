@@ -1,0 +1,13 @@
+NAME : pr2392.1430.tour
+COMMENT : Length = 1430
+COMMENT : Found by LKH [Keld Helsgaun] Fri Apr 23 13:11:51 2021
+TYPE : TOUR
+DIMENSION : 5
+TOUR_SECTION
+1
+2
+5
+3
+4
+-1
+EOF

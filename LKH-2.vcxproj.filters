@@ -365,5 +365,8 @@
     <ClInclude Include="src\include\gpx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SRC\LKHmain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

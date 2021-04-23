@@ -38,7 +38,7 @@ void WriteTour(char *FileName, int *Tour, GainType Cost)
     n = ProblemType != ATSP ? Dimension : Dimension / 2;
     fprintf(TourFile, "DIMENSION : %d\n", n);
     fprintf(TourFile, "TOUR_SECTION\n");
-
+    //Tour is the output object that contains the optimal tour
     for (i = 1; Tour[i] != 1; i++);
     Forwards = ProblemType == ATSP ||
         Tour[i < n ? i + 1 : 1] < Tour[i > 1 ? i - 1 : Dimension];

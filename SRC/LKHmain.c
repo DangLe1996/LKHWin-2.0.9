@@ -1,25 +1,29 @@
 #include "LKH.h"
 #include "Genetic.h"
+#include "LKHmain.h"
 
 /*
  * This file contains the main function of the program.
  */
 
-int main(int argc, char *argv[])
+
+
+EXPORT void PythonInput(int Dimension, int** weightMatrix  )
 {
+    
+    customInput(Dimension, weightMatrix);
+    runLKH();
+}
+
+void runLKH() {
     GainType Cost, OldOptimum;
     double Time, LastTime;
 
-    /* Read the specification of the problem */
-    if (argc >= 2)
-        ParameterFileName = argv[1];
-    ParameterFileName = "pr2392.par";
-    ReadParameters();
     StartTime = LastTime = GetTime();
     MaxMatrixDimension = 20000;
     MergeWithTour = Recombination == IPT ? MergeWithTourIPT :
         MergeWithTourGPX2;
-    ReadProblem();
+    //ReadProblem();
 
     if (SubproblemSize > 0) {
         if (DelaunayPartitioning)
@@ -46,7 +50,7 @@ int main(int argc, char *argv[])
         BestCost = PLUS_INFINITY;
     else {
         /* The ascent has solved the problem! */
-        Optimum = BestCost = (GainType) LowerBound;
+        Optimum = BestCost = (GainType)LowerBound;
         UpdateStatistics(Optimum, GetTime() - LastTime);
         RecordBetterTour();
         RecordBestTour();
@@ -72,10 +76,10 @@ int main(int argc, char *argv[])
                 Cost = MergeTourWithIndividual(i);
                 if (TraceLevel >= 1 && Cost < OldCost) {
                     printff("  Merged with %d: Cost = " GainFormat, i + 1,
-                            Cost);
+                        Cost);
                     if (Optimum != MINUS_INFINITY && Optimum != 0)
                         printff(", Gap = %0.4f%%",
-                                100.0 * (Cost - Optimum) / Optimum);
+                            100.0 * (Cost - Optimum) / Optimum);
                     printff("\n");
                 }
             }
@@ -84,14 +88,16 @@ int main(int argc, char *argv[])
                     AddToPopulation(Cost);
                     if (TraceLevel >= 1)
                         PrintPopulation();
-                } else if (Cost < Fitness[PopulationSize - 1]) {
+                }
+                else if (Cost < Fitness[PopulationSize - 1]) {
                     i = ReplacementIndividual(Cost);
                     ReplaceIndividualWithTour(i, Cost);
                     if (TraceLevel >= 1)
                         PrintPopulation();
                 }
             }
-        } else if (Run > 1)
+        }
+        else if (Run > 1)
             Cost = MergeTourWithBestTour();
         if (Cost < BestCost) {
             BestCost = Cost;
@@ -103,7 +109,7 @@ int main(int argc, char *argv[])
         OldOptimum = Optimum;
         if (Cost < Optimum) {
             if (FirstNode->InputSuc) {
-                Node *N = FirstNode;
+                Node* N = FirstNode;
                 while ((N = N->InputSuc = N->Suc) != FirstNode);
             }
             Optimum = Cost;
@@ -115,9 +121,9 @@ int main(int argc, char *argv[])
             printff("Run %d: Cost = " GainFormat, Run, Cost);
             if (Optimum != MINUS_INFINITY && Optimum != 0)
                 printff(", Gap = %0.4f%%",
-                        100.0 * (Cost - Optimum) / Optimum);
+                    100.0 * (Cost - Optimum) / Optimum);
             printff(", Time = %0.2f sec. %s\n\n", Time,
-                    Cost < Optimum ? "<" : Cost == Optimum ? "=" : "");
+                Cost < Optimum ? "<" : Cost == Optimum ? "=" : "");
         }
         if (StopAtOptimum && Cost == OldOptimum && MaxPopulationSize >= 1) {
             Runs = Run;
@@ -125,8 +131,8 @@ int main(int argc, char *argv[])
         }
         if (PopulationSize >= 2 &&
             (PopulationSize == MaxPopulationSize ||
-             Run >= 2 * MaxPopulationSize) && Run < Runs) {
-            Node *N;
+                Run >= 2 * MaxPopulationSize) && Run < Runs) {
+            Node* N;
             int Parent1, Parent2;
             Parent1 = LinearSelection(PopulationSize, 1.25);
             do
@@ -141,12 +147,49 @@ int main(int argc, char *argv[])
                     AddCandidate(N->Suc, N, d, INT_MAX);
                 }
                 N = N->InitialSuc = N->Suc;
-            }
-            while (N != FirstNode);
+            } while (N != FirstNode);
         }
         SRandom(++Seed);
     }
     PrintStatistics();
-	system("pause");
+}
+
+
+int main(int argc, char *argv[])
+{
+    int DIMENSION = 5;
+    int** weightMatrix;
+    weightMatrix = (int**)malloc(DIMENSION * sizeof(int*));
+
+    for (int row = 0; row < DIMENSION; row++) {
+        weightMatrix[row] = (int*)malloc(DIMENSION * sizeof(int));
+    }
+
+    int tempMatrix[5][5] = {
+        {100,200,300,200,150},
+        {100,200,300,189,134},
+        {140,240,300,120,150},
+        {155,130,300,340,165},
+        {100,200,300,200,150},
+
+    };
+
+    for (int i = 0; i < DIMENSION; i++) {
+        for (int j = 0; j < DIMENSION; j++) {
+            weightMatrix[i][j] = tempMatrix[i][j];
+        }
+    }
+
+    GainType Cost, OldOptimum;
+    double Time, LastTime;
+
+    /* Read the specification of the problem */
+    if (argc >= 2)
+        ParameterFileName = argv[1];
+    PythonInput(DIMENSION, weightMatrix);
+    //customInput(weightMatrix, DIMENSION); //Custom input for Amazon Challenge 
+    //////ReadParameters(); // This is initial function to read in problem parameters. 
+    //runLKH();
+    system("pause");
     return EXIT_SUCCESS;
 }

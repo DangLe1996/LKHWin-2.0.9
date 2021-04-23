@@ -19,6 +19,9 @@
 #include "GainType.h"
 #include "Hashing.h"
 
+ //Export 
+#define EXPORT __declspec(dllexport)
+
 /* Macro definitions */
 
 #define Fixed(a, b) ((a)->FixedTo1 == (b) || (a)->FixedTo2 == (b))
@@ -445,6 +448,7 @@ unsigned Random(void);
 int ReadCandidates(int MaxCandidates);
 int ReadEdges(int MaxCandidates);
 char *ReadLine(FILE * InputFile);
+void InitializeConstant();
 void ReadParameters(void);
 int ReadPenalties(void);
 void ReadProblem(void);
