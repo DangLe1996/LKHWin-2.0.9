@@ -6,13 +6,30 @@
  * This file contains the main function of the program.
  */
 
+EXPORT int add(int i, int j) {
+    return i + j;
+}
+
+EXPORT int getCost(int** ppArr) {
+    printf("cost is %d\n", ppArr[1][3]);
+    return ppArr[2][6];
+}
 
 
-EXPORT void PythonInput(int Dimension, int** weightMatrix  )
+EXPORT void PythonInput(int* sequence, int** travelCost, int n_stops)
 {
-    
-    customInput(Dimension, weightMatrix);
+
+    customInput(n_stops, travelCost);
+    printf("Read Good\n");
+
     runLKH();
+    printf("solved, LKH\n");
+
+    for (int i = 0; i < n_stops; i++){
+
+        sequence[i] = BestTour[i];
+    }
+
 }
 
 void runLKH() {
@@ -164,7 +181,6 @@ int main(int argc, char *argv[])
     for (int row = 0; row < DIMENSION; row++) {
         weightMatrix[row] = (int*)malloc(DIMENSION * sizeof(int));
     }
-
     int tempMatrix[5][5] = {
         {100,200,300,200,150},
         {100,200,300,189,134},
@@ -186,7 +202,10 @@ int main(int argc, char *argv[])
     /* Read the specification of the problem */
     if (argc >= 2)
         ParameterFileName = argv[1];
-    PythonInput(DIMENSION, weightMatrix);
+    int* optimalSequence;
+    optimalSequence = (int*)malloc(DIMENSION * sizeof(int));
+
+    PythonInput(optimalSequence, weightMatrix, DIMENSION);
     //customInput(weightMatrix, DIMENSION); //Custom input for Amazon Challenge 
     //////ReadParameters(); // This is initial function to read in problem parameters. 
     //runLKH();

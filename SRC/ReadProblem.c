@@ -789,14 +789,13 @@ void customInput(int DIMENSION, int** weightMatrix) {
     int MOVE_TYPE = 5;
     int PATCHING_C = 3;
     int PATCHING_A = 2;
-    int RUNS = 10;
+    int RUNS = 5;
     char* name = "RouteID_Test";
     char* type = ATSP;
 
     char* EDGE_WEIGHT_TYPE = "EXPLICIT";
     char* EDGE_WEIGHT_FORMAT = "FULL_MATRIX";
-   /* char* OUTPUT_TOUR_FILE = "ATSP.txt";
-    char* PROBLEM_FILE = "ATSP.tsp";*/
+
     MoveType = MOVE_TYPE;
     PatchingC = PATCHING_C;
     PatchingA = PATCHING_A;
