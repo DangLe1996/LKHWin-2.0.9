@@ -6,29 +6,45 @@
  * This file contains the main function of the program.
  */
 
-EXPORT int add(int i, int j) {
+ int add(int i, int j) {
     return i + j;
 }
 
-EXPORT int getCost(int** ppArr) {
-    printf("cost is %d\n", ppArr[1][3]);
+ int getCost(double** ppArr) {
+    printf("cost is %f\n", ppArr[1][3]);
     return ppArr[2][6];
 }
 
 
-EXPORT void PythonInput(int* sequence, int** travelCost, int n_stops)
+ void PythonInput(int* sequence, double** travelCost, int n_stops)
 {
 
-    customInput(n_stops, travelCost);
+	int DIMENSION = n_stops;
+    int** weightMatrix;
+    weightMatrix = (int**)malloc(DIMENSION * sizeof(int*));
+
+    for (int row = 0; row < DIMENSION; row++) {
+        weightMatrix[row] = (int*)malloc(DIMENSION * sizeof(int));
+    }
+
+	for(int i = 0; i < n_stops; i++){
+		
+		for(int j = 0; j < n_stops; j++){
+			
+			weightMatrix[i][j] = travelCost[i][j];
+		}
+	}
+    customInput(n_stops, weightMatrix);
     printf("Read Good\n");
 
     runLKH();
     printf("solved, LKH\n");
-
+	
     for (int i = 0; i < n_stops; i++){
 
         sequence[i] = BestTour[i];
     }
+	FreeStructures();
 
 }
 

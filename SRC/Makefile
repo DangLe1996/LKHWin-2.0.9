@@ -2,10 +2,10 @@ TREE_TYPE = TWO_LEVEL_TREE
 # TREE_TYPE = THREE_LEVEL_TREE
 # TREE_TYPE = ONE_LEVEL_TREE
 
-# CC = gcc
+CC = gcc -fPIC
 IDIR = INCLUDE
 ODIR = OBJ
-CFLAGS = -O3 -Wall -I$(IDIR) -D$(TREE_TYPE) -g
+CFLAGS = -O3 -Wall -I$(IDIR) -D$(TREE_TYPE) -g -std=c99 -fPIC
 
 _DEPS = Delaunay.h GainType.h Genetic.h GeoConversion.h Hashing.h      \
         Heap.h LKH.h Segment.h Sequence.h gpx.h
@@ -58,7 +58,7 @@ all:
 	$(MAKE) LKH
 
 LKH: $(OBJ) $(DEPS)
-	$(CC) -o ../LKH $(OBJ) $(CFLAGS) -lm
+	$(CC) -shared -o ../LKH.so $(OBJ) $(CFLAGS) -lm
 
 clean:
 	/bin/rm -f $(ODIR)/*.o ../LKH *~ ._* $(IDIR)/*~ $(IDIR)/._* 
