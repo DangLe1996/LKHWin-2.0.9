@@ -34,6 +34,9 @@ EXPORT void PythonInput(int* sequence, int** travelCost, int n_stops)
     }
     FreeStructures();
     FirstNode = 0;
+    FirstActive = 0;
+    LastActive = 0;
+
 
 }
 
