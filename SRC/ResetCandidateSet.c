@@ -45,4 +45,5 @@ void ResetCandidateSet()
         }
     }
     while ((From = From->Suc) != FirstNode);
+    From = NFrom = NN = 0;
 }

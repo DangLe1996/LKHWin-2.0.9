@@ -55,6 +55,10 @@ void WriteTour(char *FileName, int *Tour, GainType Cost)
     if (TraceLevel >= 1)
         printff("done\n");
     free(FullFileName);
+
+    TourFile = 0;
+    FullFileName = 0;
+
 }
 
 /*

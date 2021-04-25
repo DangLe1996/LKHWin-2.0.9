@@ -46,4 +46,5 @@ void RecordBetterTour()
         N->BestSuc = N->Suc;
     }
     while ((N = N->Suc) != FirstNode);
+    N = Stop = 0;
 }

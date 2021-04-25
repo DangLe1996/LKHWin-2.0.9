@@ -31,5 +31,6 @@ GainType MergeTourWithBestTour()
             M2->Next = N2;
         }
     }
+    N1 = N2 = M1 = M2 = 0;
     return MergeWithTour();
 }

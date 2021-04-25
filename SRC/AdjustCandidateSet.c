@@ -58,4 +58,7 @@ void AdjustCandidateSet()
             }
     }
     while ((From = From->Suc) != FirstNode);
+
+    NFrom = NN = 0;
+    From = To = 0;
 }

@@ -79,4 +79,6 @@ void AddTourCandidates()
             AddCandidate(Nb, Na, d, 1);
         }
     } while ((Na = Nb) != FirstNode);
+
+    Na,  Nb = 0;
 }

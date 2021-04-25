@@ -28,4 +28,5 @@ void RestoreTour()
         t3->OldPredExcluded = t3->OldSucExcluded = 0;
         t4->OldPredExcluded = t4->OldSucExcluded = 0;
     }
+    t1 = t2 = t3 = t4 = 0;
 }

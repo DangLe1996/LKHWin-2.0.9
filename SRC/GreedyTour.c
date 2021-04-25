@@ -236,6 +236,9 @@ GainType GreedyTour()
             printff(", Gap = %0.1f%%", 100.0 * (Cost - Optimum) / Optimum);
         printff(", Time = %0.2f sec.\n", fabs(GetTime() - EntryTime));
     }
+    From = To = First = Last = 0;
+    Perm = 0;
+
     return Cost;
 }
 
@@ -309,6 +312,9 @@ static Node *NearestNeighbor(Node * From)
             }
         }
     }
+
+    NN = To = N = First = Last  = 0;
+
     return Nearest;
 }
 
@@ -335,6 +341,7 @@ static Node *NearestInList(Node * From, Node * First)
         }
     }
     while ((To = To->OldSuc) != First);
+    To = 0;
     return Nearest;
 }
 
@@ -375,6 +382,7 @@ static void AddEdgeToFragments(Node * From, Node * To)
     To->Tail->Tail = Temp;
     EdgesInFragments++;
     Cost += From->Cost - From->Pi - To->Pi;
+    Temp = 0;
 }
 
 /*

@@ -46,6 +46,7 @@ void KSwapKick(int K)
         Link(s[(i + 2) % K], s[i]->OldSuc);
   End_KSwapKick:
     free(s);
+    s = N = 0;
 }
 
 /*

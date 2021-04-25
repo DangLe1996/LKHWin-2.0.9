@@ -25,4 +25,5 @@ void NormalizeSegmentList()
         }
     }
     while ((s1 = s2) != FirstSegment);
+    s1 = s2 = 0;
 }

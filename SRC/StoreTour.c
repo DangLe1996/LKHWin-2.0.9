@@ -40,4 +40,6 @@ void StoreTour()
                     t->Cost = Nt->Cost;
         }
     }
+    t = u = 0;
+    Nt = 0;
 }

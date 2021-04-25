@@ -41,5 +41,6 @@ int AddCandidate(Node * From, Node * To, int Cost, int Alpha)
         (Candidate *) realloc(From->CandidateSet,
                               (Count + 2) * sizeof(Candidate));
     From->CandidateSet[Count + 1].To = 0;
+    NFrom = 0;
     return 1;
 }

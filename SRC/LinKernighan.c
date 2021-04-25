@@ -184,5 +184,10 @@ GainType LinKernighan()
     PredSucCostAvailable = 0;
     NormalizeNodeList();
     NormalizeSegmentList();
+
+
+    t1 = t2 = SUCt1 = Nt1 = S = SS = 0;
+
+
     return Cost;
 }

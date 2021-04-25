@@ -245,6 +245,13 @@ GainType Gain23()
         }
         while ((s1 = s2) != s1Stop);
     }
+
+
+   s1 = s2 = s3 = s4 = s5 = s6 = s7 = s8 = s1Stop = 0;
+   Ns2 = Ns4 = Ns6 = 0;
+  
+
+
     return 0;
 }
 

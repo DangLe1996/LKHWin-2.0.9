@@ -134,6 +134,7 @@ GainType FindTour()
     if (Trial > MaxTrials)
         Trial = MaxTrials;
     ResetCandidateSet();
+    t = 0;
     return BetterCost;
 }
 
@@ -149,4 +150,5 @@ static void SwapCandidateSets()
         t->CandidateSet = t->BackboneCandidateSet;
         t->BackboneCandidateSet = Temp;
     } while ((t = t->Suc) != FirstNode);
+    t = 0;
 }

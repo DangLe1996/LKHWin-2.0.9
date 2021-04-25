@@ -46,4 +46,5 @@ void CandidateReport()
         while ((N = N->Suc) != FirstNode);
         printff("Edges.common = %d\n", Count);
     }
+    N = NN = 0;
 }

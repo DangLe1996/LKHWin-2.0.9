@@ -46,4 +46,6 @@ void AddExtraCandidates(int K, int CandidateSetType, int Symmetric)
         free(ExtraCandidateSet);
     } while ((t = t->Suc) != FirstNode);
     free(SavedCandidateSet);
+    Nt = ExtraCandidateSet = 0;
+    t = 0;
 }

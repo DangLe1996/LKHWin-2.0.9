@@ -515,7 +515,7 @@ void ReadParameters()
     Recombination = IPT;
     RestrictedSearch = 1;
     RohePartitioning = 0;
-    Runs = 0;
+    Runs = 5;
     Seed = 1;
     SierpinskiPartitioning = 0;
     StopAtOptimum = 1;

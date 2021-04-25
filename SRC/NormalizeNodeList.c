@@ -21,4 +21,5 @@ void NormalizeNodeList()
         t1->Parent = 0;
     }
     while ((t1 = t2) != FirstNode);
+    t1 = t2 = 0;
 }

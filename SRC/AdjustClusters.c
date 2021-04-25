@@ -55,4 +55,5 @@ void AdjustClusters(int K, Node ** Center)
         }
     } while ((N = N->Suc) != FirstNode);
     free(Size);
+    Size = N = 0;
 }

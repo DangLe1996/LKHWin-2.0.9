@@ -188,4 +188,6 @@ void ChooseInitialTour()
             RecordBetterTour();
         }
     }
+    N = NextN = FirstAlternative = Last = 0;
+        NN = 0;
 }

@@ -32,6 +32,7 @@ void AddToPopulation(GainType Cost)
         P[i++] = N->Id;
     while ((N = N->Suc) != FirstNode);
     P[0] = P[Dimension];
+    P = N = 0;
     PopulationSize++;
 }
 
@@ -54,6 +55,7 @@ void ApplyCrossover(int i, int j)
         printff("Crossover(%d,%d)\n", i + 1, j + 1);
     /* Apply the crossover operator */
     Crossover();
+    Pi = Pj = 0;
 }
 
 #define Free(s) { free(s); s = 0; }
@@ -142,6 +144,7 @@ GainType MergeTourWithIndividual(int i)
     Pi = Population[i];
     for (k = 1; k <= Dimension; k++)
         NodeSet[Pi[k - 1]].Next = &NodeSet[Pi[k]];
+    Pi = 0;
     return MergeWithTour();
 }
 
@@ -197,6 +200,7 @@ void ReplaceIndividualWithTour(int i, GainType Cost)
     }
     Fitness[i] = Cost;
     Population[i] = P;
+    P = N = 0;
 }
 
 /* 
@@ -252,5 +256,6 @@ int ReplacementIndividual(GainType Cost)
     for (i = 0; i < PopulationSize; i++)
         if (i != CMin && (d = DistanceToIndividual(i)) <= MinDist)
             return PopulationSize - 1;
+    P = N = 0;
     return CMin;
 }

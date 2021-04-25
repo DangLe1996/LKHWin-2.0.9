@@ -98,6 +98,8 @@ GainType SFCTour(int CurveType)
             printff(", Gap = %0.1f%%", 100.0 * (Cost - Optimum) / Optimum);
         printff(", Time = %0.2f sec.\n", fabs(GetTime() - EntryTime));
     }
+    N = Perm = 0;
+
     return Cost;
 }
 

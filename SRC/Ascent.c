@@ -198,5 +198,6 @@ GainType Ascent()
     if (TraceLevel >= 2)
         printff("Ascent: BestW = %0.1f, Norm = %d\n",
                 (double) BestW / Precision, Norm);
+    t = 0;
     return W;
 }

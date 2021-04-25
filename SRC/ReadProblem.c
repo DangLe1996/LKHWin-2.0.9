@@ -216,7 +216,7 @@ static void Read_DISPLAY_DATA_TYPE(void);
 static void Read_EDGE_DATA_FORMAT(void);
 static void Read_EDGE_DATA_SECTION(void);
 static void Read_EDGE_WEIGHT_FORMAT(void);
-void customInput(int DIMENSION, int** weightMatrix);
+void customInput(int DIMENSION, double** weightMatrix);
 static void PostInitialization();
 static void Read_EDGE_WEIGHT_SECTION(void);
 static void Read_EDGE_WEIGHT_TYPE(void);
@@ -360,8 +360,9 @@ void ReadProblem()
         for (i = 2; i <= n; i++) {
             Node *N = &NodeSet[i];
             for (j = 1; j < i; j++)
-                if (N->C[j] * Precision / Precision != N->C[j])
+                if (N->C[j] * Precision / Precision != N->C[j]) {
                     eprintf("PRECISION (= %d) is too large", Precision);
+                }
         }
     }
     C = WeightType == EXPLICIT ? C_EXPLICIT : C_FUNCTION;
@@ -783,19 +784,15 @@ static void Read_EDGE_WEIGHT_FORMAT()
 }
 
 
-void customInput(int DIMENSION, int** weightMatrix) {
+void customInput(int DIMENSION, double** weightMatrix) {
 
 
     InitializeConstant();
+    TraceLevel = 3;
     int MOVE_TYPE = 5;
     int PATCHING_C = 3;
     int PATCHING_A = 2;
-    int RUNS = 0;
-    char* name = "RouteID_Test";
-    char* type = ATSP;
-	
-    char* EDGE_WEIGHT_TYPE = "EXPLICIT";
-    char* EDGE_WEIGHT_FORMAT = "FULL_MATRIX";
+    int RUNS = 5;
 
     MoveType = MOVE_TYPE;
     PatchingC = PATCHING_C;
@@ -803,9 +800,8 @@ void customInput(int DIMENSION, int** weightMatrix) {
 	
 	TimeLimit = 5;
     Runs = RUNS;
-    ProblemType = type;
-    //ProblemFileName = PROBLEM_FILE;
-    
+    ProblemType = ATSP;
+
     //Read Data Parts
     Dimension = DIMENSION;
     DimensionSaved = Dimension;
@@ -828,7 +824,7 @@ void customInput(int DIMENSION, int** weightMatrix) {
         for (i = 1; i <= n; i++) {
             Ni = &NodeSet[i];
             for (j = 1; j <= n; j++) {
-                W = weightMatrix[i-1][j-1];
+                W = (int)weightMatrix[i-1][j-1];
                 Ni->C[j] = W;
                 if (i != j && W > M)
                     M = W;
@@ -843,6 +839,11 @@ void customInput(int DIMENSION, int** weightMatrix) {
     PostInitialization();
     free(LastLine);
     LastLine = 0;
+
+  
+    Ni = 0;
+    Nj = 0;
+
 }
 static void PostInitialization() {
     int i, K;
@@ -879,10 +880,10 @@ static void PostInitialization() {
             MaxTrials = Dimension;
         MakeHeap(Dimension);
     }
-   /* if (POPMUSIC_MaxNeighbors > Dimension - 1)
+    if (POPMUSIC_MaxNeighbors > Dimension - 1)
         POPMUSIC_MaxNeighbors = Dimension - 1;
     if (POPMUSIC_SampleSize > Dimension)
-        POPMUSIC_SampleSize = Dimension;*/
+        POPMUSIC_SampleSize = Dimension;
   
     if (Precision > 1 && (WeightType == EXPLICIT || ProblemType == ATSP)) {
         int j, n = ProblemType == ATSP ? Dimension / 2 : Dimension;

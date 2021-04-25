@@ -13,33 +13,28 @@
     return i + j;
 }
 
- int getCost(double** ppArr) {
+EXPORT int getCost(double** ppArr) {
     printf("cost is %f\n", ppArr[1][3]);
     return ppArr[2][6];
 }
 
-
- void PythonInput(int* sequence, double** travelCost, int n_stops)
+EXPORT void PythonInput(int* sequence, double** travelCost, int n_stops)
 {
 
+    printf("cost is %f\n", travelCost[1][3]);
+
 	int DIMENSION = n_stops;
-    int** weightMatrix;
-    weightMatrix = (int**)malloc(DIMENSION * sizeof(int*));
+   
 
-    for (int row = 0; row < DIMENSION; row++) {
-        weightMatrix[row] = (int*)malloc(DIMENSION * sizeof(int));
-    }
 
-	for(int i = 0; i < n_stops; i++){
-		
-		for(int j = 0; j < n_stops; j++){
-			
-			weightMatrix[i][j] = travelCost[i][j];
-		}
-	}
-    customInput(n_stops, weightMatrix);
+    
+    MaxMatrixDimension = 20000;
+    MergeWithTour = Recombination == IPT ? MergeWithTourIPT :
+        MergeWithTourGPX2;
+
+
+    customInput(n_stops, travelCost);
     printf("Read Good\n");
-
     runLKH();
     printf("solved, LKH\n");
 	
@@ -47,23 +42,21 @@
 
         sequence[i] = BestTour[i];
     }
+    //Do not commenents the following out. 
     FreeStructures();
     FirstNode = 0;
-    FirstActive = 0;
-    LastActive = 0;
+   FirstActive = 0;
+   LastActive = 0;
+    return;
 
 
 }
-
 
 void runLKH() {
     GainType Cost, OldOptimum;
     double Time, LastTime;
 
     StartTime = LastTime = GetTime();
-    MaxMatrixDimension = 20000;
-    MergeWithTour = Recombination == IPT ? MergeWithTourIPT :
-        MergeWithTourGPX2;
     //ReadProblem();
 
     if (SubproblemSize > 0) {
@@ -98,8 +91,8 @@ void runLKH() {
         WriteTour(OutputTourFileName, BestTour, BestCost);
         WriteTour(TourFileName, BestTour, BestCost);
         Runs = 0;
+        printf("The ascent has solved the problem!");
     }
-
     /* Find a specified number (Runs) of local optima */
     for (Run = 1; Run <= Runs; Run++) {
         LastTime = GetTime();
@@ -196,55 +189,73 @@ void runLKH() {
 }
 
 
-int main(int argc, char *argv[])
-{
-    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-    int DIMENSION = 5;
-    int** weightMatrix;
-    weightMatrix = (int**)malloc(DIMENSION * sizeof(int*));
-
-    for (int row = 0; row < DIMENSION; row++) {
-        weightMatrix[row] = (int*)malloc(DIMENSION * sizeof(int));
-    }
-    int tempMatrix[5][5] = {
-        {100,200,300,200,150},
-        {100,200,300,189,134},
-        {140,240,300,120,150},
-        {155,130,300,340,165},
-        {100,200,300,200,150},
+void test1() {
+    int DIMENSION = 6;
+    double tempMatrix[6][6] = {
+        {0,200,300,200,150,600},
+        {100,0.0,300,189,134,400},
+        {140,240,0.0,120,150,300},
+        {155,130,300,0.0,165,105.6},
+        {100,200,300,200,0.0,190.8},
+        {100,200,300,215.6,150,0.0},
 
     };
+    double** weightMatrix;
+    weightMatrix = (double**)malloc(DIMENSION * sizeof(double*));
 
+    for (int row = 0; row < DIMENSION; row++) {
+        weightMatrix[row] = (double*)malloc(DIMENSION * sizeof(double));
+    }
     for (int i = 0; i < DIMENSION; i++) {
         for (int j = 0; j < DIMENSION; j++) {
             weightMatrix[i][j] = tempMatrix[i][j];
         }
     }
-
-    GainType Cost, OldOptimum;
-    double Time, LastTime;
-
-    /* Read the specification of the problem */
-    if (argc >= 2)
-        ParameterFileName = argv[1];
     int* optimalSequence;
     optimalSequence = (int*)malloc(DIMENSION * sizeof(int));
 
     PythonInput(optimalSequence, weightMatrix, DIMENSION);
-    PythonInput(optimalSequence, weightMatrix, DIMENSION);
-    PythonInput(optimalSequence, weightMatrix, DIMENSION);
-    PythonInput(optimalSequence, weightMatrix, DIMENSION);
+    free(optimalSequence);
+    optimalSequence = 0;
+}
+void test2() {
+    int DIMENSION = 5;
+    double** weightMatrix;
+    weightMatrix = (double**)malloc(DIMENSION * sizeof(double*));
 
     for (int row = 0; row < DIMENSION; row++) {
-        free(weightMatrix[row]);
+        weightMatrix[row] = (double*)malloc(DIMENSION * sizeof(double));
     }
-    free(optimalSequence);
-    free(weightMatrix);
+    double tempMatrix[5][5] = {
+        {0.0,200,300,200,150},
+        {100,0.0,300,189,134},
+        {140,240,0.0,120,150},
+        {155,130,300,0.0,165},
+        {100,200,300,200,0.0},
 
-    //customInput(weightMatrix, DIMENSION); //Custom input for Amazon Challenge 
-    //////ReadParameters(); // This is initial function to read in problem parameters. 
-    //runLKH();
+    };
+    for (int i = 0; i < DIMENSION; i++) {
+        for (int j = 0; j < DIMENSION; j++) {
+            weightMatrix[i][j] = tempMatrix[i][j];
+        }
+    }
+    int* optimalSequence;
+    optimalSequence = (int*)malloc(DIMENSION * sizeof(int));
+
+    PythonInput(optimalSequence, weightMatrix, DIMENSION);
+
+    free(optimalSequence);
+    optimalSequence = 0;
+}
+
+int main(int argc, char *argv[])
+{
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+    test1();
+    test2();
+
     system("pause");
     return EXIT_SUCCESS;
 }

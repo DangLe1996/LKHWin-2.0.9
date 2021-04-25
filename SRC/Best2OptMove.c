@@ -98,6 +98,9 @@ Node *Best2OptMove(Node * t1, Node * t2, GainType * G0, GainType * Gain)
         Exclude(T3, T4);
         *G0 = BestG2;
     }
+    T3 = 0;
+    Nt2 = 0;
+
     return T4;
 }
 

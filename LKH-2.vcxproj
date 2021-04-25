@@ -114,6 +114,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>SRC\INCLUDE</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
