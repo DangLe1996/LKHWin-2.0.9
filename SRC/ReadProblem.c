@@ -785,7 +785,6 @@ static void Read_EDGE_WEIGHT_FORMAT()
 
 void customInput(int DIMENSION, int** weightMatrix) {
 
-    FreeStructures();
 
     InitializeConstant();
     int MOVE_TYPE = 5;

@@ -33,8 +33,10 @@ EXPORT void PythonInput(int* sequence, int** travelCost, int n_stops)
         sequence[i] = BestTour[i];
     }
     FreeStructures();
+    FirstNode = 0;
 
 }
+
 
 void runLKH() {
     GainType Cost, OldOptimum;
@@ -211,6 +213,9 @@ int main(int argc, char *argv[])
     int* optimalSequence;
     optimalSequence = (int*)malloc(DIMENSION * sizeof(int));
 
+    PythonInput(optimalSequence, weightMatrix, DIMENSION);
+    PythonInput(optimalSequence, weightMatrix, DIMENSION);
+    PythonInput(optimalSequence, weightMatrix, DIMENSION);
     PythonInput(optimalSequence, weightMatrix, DIMENSION);
 
     for (int row = 0; row < DIMENSION; row++) {

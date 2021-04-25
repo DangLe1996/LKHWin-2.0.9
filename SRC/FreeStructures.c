@@ -88,4 +88,6 @@ void FreeCandidateSets()
         Free(N->BackboneCandidateSet);
     }
     while ((N = N->Suc) != FirstNode);
+   /* Free(FirstNode);
+    Free(FirstActive);*/
 }
