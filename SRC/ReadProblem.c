@@ -790,16 +790,18 @@ void customInput(int DIMENSION, int** weightMatrix) {
     int MOVE_TYPE = 5;
     int PATCHING_C = 3;
     int PATCHING_A = 2;
-    int RUNS = 5;
+    int RUNS = 0;
     char* name = "RouteID_Test";
     char* type = ATSP;
-
+	
     char* EDGE_WEIGHT_TYPE = "EXPLICIT";
     char* EDGE_WEIGHT_FORMAT = "FULL_MATRIX";
 
     MoveType = MOVE_TYPE;
     PatchingC = PATCHING_C;
     PatchingA = PATCHING_A;
+	
+	TimeLimit = 5;
     Runs = RUNS;
     ProblemType = type;
     //ProblemFileName = PROBLEM_FILE;
@@ -810,10 +812,9 @@ void customInput(int DIMENSION, int** weightMatrix) {
     WeightType = EXPLICIT;
     Distance = Distance_EXPLICIT;
     WeightFormat = FULL_MATRIX;
-
+	
     Node* Ni, * Nj;
     int i, j, n, W;
-
     CheckSpecificationPart();
     if (!FirstNode)
         CreateNodes();
