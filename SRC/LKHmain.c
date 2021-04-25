@@ -2,6 +2,9 @@
 #include "Genetic.h"
 #include "LKHmain.h"
 
+#define _CRTDBG_MAP_ALLOC
+
+#include <crtdbg.h>
 /*
  * This file contains the main function of the program.
  */
@@ -29,6 +32,7 @@ EXPORT void PythonInput(int* sequence, int** travelCost, int n_stops)
 
         sequence[i] = BestTour[i];
     }
+    FreeStructures();
 
 }
 
@@ -174,6 +178,8 @@ void runLKH() {
 
 int main(int argc, char *argv[])
 {
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
     int DIMENSION = 5;
     int** weightMatrix;
     weightMatrix = (int**)malloc(DIMENSION * sizeof(int*));
@@ -206,6 +212,13 @@ int main(int argc, char *argv[])
     optimalSequence = (int*)malloc(DIMENSION * sizeof(int));
 
     PythonInput(optimalSequence, weightMatrix, DIMENSION);
+
+    for (int row = 0; row < DIMENSION; row++) {
+        free(weightMatrix[row]);
+    }
+    free(optimalSequence);
+    free(weightMatrix);
+
     //customInput(weightMatrix, DIMENSION); //Custom input for Amazon Challenge 
     //////ReadParameters(); // This is initial function to read in problem parameters. 
     //runLKH();

@@ -785,6 +785,8 @@ static void Read_EDGE_WEIGHT_FORMAT()
 
 void customInput(int DIMENSION, int** weightMatrix) {
 
+    FreeStructures();
+
     InitializeConstant();
     int MOVE_TYPE = 5;
     int PATCHING_C = 3;
@@ -802,7 +804,7 @@ void customInput(int DIMENSION, int** weightMatrix) {
     Runs = RUNS;
     ProblemType = type;
     //ProblemFileName = PROBLEM_FILE;
-
+    
     //Read Data Parts
     Dimension = DIMENSION;
     DimensionSaved = Dimension;
@@ -839,9 +841,10 @@ void customInput(int DIMENSION, int** weightMatrix) {
     }
 
     PostInitialization();
+    free(LastLine);
+    LastLine = 0;
 }
 static void PostInitialization() {
-
     int i, K;
     /* Adjust parameters */
     if (Seed == 0)
