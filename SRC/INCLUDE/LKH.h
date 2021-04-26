@@ -323,7 +323,7 @@ MoveFunction BestMove, BacktrackMove, BestSubsequentMove;
 MergeTourFunction MergeWithTour;
 
 /* Function prototypes: */
-
+void customInput(int DIMENSION, double** weightMatrix);
 int Distance_1(Node * Na, Node * Nb);
 int Distance_LARGE(Node * Na, Node * Nb);
 int Distance_ATSP(Node * Na, Node * Nb);

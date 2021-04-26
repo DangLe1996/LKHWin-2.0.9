@@ -216,7 +216,6 @@ static void Read_DISPLAY_DATA_TYPE(void);
 static void Read_EDGE_DATA_FORMAT(void);
 static void Read_EDGE_DATA_SECTION(void);
 static void Read_EDGE_WEIGHT_FORMAT(void);
-void customInput(int DIMENSION, double** weightMatrix);
 static void PostInitialization();
 static void Read_EDGE_WEIGHT_SECTION(void);
 static void Read_EDGE_WEIGHT_TYPE(void);
@@ -788,18 +787,17 @@ void customInput(int DIMENSION, double** weightMatrix) {
 
 
     InitializeConstant();
-    TraceLevel = 3;
-    int MOVE_TYPE = 5;
-    int PATCHING_C = 3;
-    int PATCHING_A = 2;
-    int RUNS = 5;
+    TraceLevel = 0;
 
-    MoveType = MOVE_TYPE;
-    PatchingC = PATCHING_C;
-    PatchingA = PATCHING_A;
+    MoveType = 5;
+    PatchingC = 3;
+    PatchingA = 2;
 	
 	TimeLimit = 5;
-    Runs = RUNS;
+    Runs = 1;
+    InitialTourAlgorithm = BORUVKA;
+    SubproblemSize = 0;
+
     ProblemType = ATSP;
 
     //Read Data Parts

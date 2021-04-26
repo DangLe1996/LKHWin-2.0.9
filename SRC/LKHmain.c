@@ -2,6 +2,7 @@
 #include "Genetic.h"
 #include "LKHmain.h"
 
+
 #define _CRTDBG_MAP_ALLOC
 
 #include <crtdbg.h>
@@ -24,8 +25,6 @@ EXPORT void PythonInput(int* sequence, double** travelCost, int n_stops)
     printf("cost is %f\n", travelCost[1][3]);
 
 	int DIMENSION = n_stops;
-   
-
 
     
     MaxMatrixDimension = 20000;
@@ -50,6 +49,18 @@ EXPORT void PythonInput(int* sequence, double** travelCost, int n_stops)
     return;
 
 
+}
+
+EXPORT void freeme(int* sequence, double** travelCost, int n_stops)
+{
+    for (int i = 0; i < n_stops; i++) {
+        free(travelCost[i]);
+    }
+    free(travelCost);
+    free(sequence);
+    travelCost = 0;
+    sequence = 0;
+    printf("Free all pointers");
 }
 
 void runLKH() {
