@@ -105,4 +105,6 @@ void AllocateSegments()
             SLink(SSPrev, SS);
     }
     SLink(SS, FirstSSegment);
+    S  = SPrev = 0;
+    SS = SSPrev = 0;
 }
