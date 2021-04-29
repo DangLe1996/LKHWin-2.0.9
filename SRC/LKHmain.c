@@ -33,12 +33,12 @@ EXPORT void PythonInput(int* sequence, double** travelCost, int n_stops)
     customInput(n_stops, travelCost);
     printf("Read Good\n");
     runLKH();
-    //printf("solved, LKH\n");
+    printf("solved, LKH\n");
 	
-    //for (int i = 0; i < n_stops; i++){
+    for (int i = 0; i < n_stops; i++){
 
-    //    sequence[i] = BestTour[i];
-    //}
+        sequence[i] = BestTour[i];
+    }
     ////Do not commenents the following out. 
     FreeStructures();
     BestTour = 0;

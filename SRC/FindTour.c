@@ -127,11 +127,11 @@ GainType FindTour()
         while (t != FirstNode);
     }
     Hash = 0;
-   /* do {
+    do {
         (t->Suc = t->BestSuc)->Pred = t;
         Hash ^= Rand[t->Id] * Rand[t->Suc->Id];
 
-    } while ((t = t->BestSuc) != FirstNode);*/
+    } while ((t = t->BestSuc) != FirstNode);
     if (Trial > MaxTrials)
         Trial = MaxTrials;
     ResetCandidateSet();

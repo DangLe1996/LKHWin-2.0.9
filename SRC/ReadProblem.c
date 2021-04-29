@@ -787,7 +787,7 @@ void customInput(int DIMENSION, double** weightMatrix) {
 
 
     InitializeConstant();
-    TraceLevel = 0;
+    TraceLevel = 1;
 
     MoveType = 5;
     PatchingC = 3;
