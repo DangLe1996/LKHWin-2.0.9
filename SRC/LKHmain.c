@@ -25,8 +25,6 @@ EXPORT void PythonInput(int* sequence, double** travelCost, int n_stops)
     printf("cost is %f\n", travelCost[1][3]);
 
 	int DIMENSION = n_stops;
-
-    
     MaxMatrixDimension = 20000;
     MergeWithTour = Recombination == IPT ? MergeWithTourIPT :
         MergeWithTourGPX2;
@@ -35,19 +33,20 @@ EXPORT void PythonInput(int* sequence, double** travelCost, int n_stops)
     customInput(n_stops, travelCost);
     printf("Read Good\n");
     runLKH();
-    printf("solved, LKH\n");
+    //printf("solved, LKH\n");
 	
-    for (int i = 0; i < n_stops; i++){
+    //for (int i = 0; i < n_stops; i++){
 
-        sequence[i] = BestTour[i];
-    }
-    //Do not commenents the following out. 
+    //    sequence[i] = BestTour[i];
+    //}
+    ////Do not commenents the following out. 
     FreeStructures();
     BestTour = 0;
     BetterTour = 0;
     FirstNode = 0;
    FirstActive = 0;
    LastActive = 0;
+   
     return;
 
 
@@ -229,6 +228,10 @@ void test1() {
     optimalSequence = (int*)malloc(DIMENSION * sizeof(int));
 
     PythonInput(optimalSequence, weightMatrix, DIMENSION);
+    for (int i = 0; i < DIMENSION; i++) {
+        free(weightMatrix[i]);
+    }
+
     free(weightMatrix);
     weightMatrix = 0;
     free(optimalSequence);
@@ -272,8 +275,8 @@ int main(int argc, char *argv[])
 {
    
     for (int i = 1; i <= 10000; i++) {
-        //test1();
-        test2();
+        test1();
+        //test2();
     }
 
     system("pause");

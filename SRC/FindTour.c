@@ -32,10 +32,10 @@ GainType FindTour()
     if (Run == 1 && Dimension == DimensionSaved) {
         OrdinalTourCost = 0;
         for (i = 1; i < Dimension; i++)
-            OrdinalTourCost += C(&NodeSet[i], &NodeSet[i + 1])
-                - NodeSet[i].Pi - NodeSet[i + 1].Pi;
-        OrdinalTourCost += C(&NodeSet[Dimension], &NodeSet[1])
-            - NodeSet[Dimension].Pi - NodeSet[1].Pi;
+            OrdinalTourCost += C(&NodeSet[i], &NodeSet[i + 1]);
+               
+        OrdinalTourCost += C(&NodeSet[Dimension], &NodeSet[1]);
+           
         OrdinalTourCost /= Precision;
     }
     BetterCost = PLUS_INFINITY;
@@ -127,10 +127,11 @@ GainType FindTour()
         while (t != FirstNode);
     }
     Hash = 0;
-    do {
+   /* do {
         (t->Suc = t->BestSuc)->Pred = t;
         Hash ^= Rand[t->Id] * Rand[t->Suc->Id];
-    } while ((t = t->BestSuc) != FirstNode);
+
+    } while ((t = t->BestSuc) != FirstNode);*/
     if (Trial > MaxTrials)
         Trial = MaxTrials;
     ResetCandidateSet();

@@ -24,9 +24,6 @@
     <ClCompile Include="src\IsCommonEdge.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ReadProblem.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\BestKOptMove.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -172,9 +169,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SolveSubproblemBorderProblems.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ReadParameters.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\FixedOrCommonCandidates.c">
@@ -331,6 +325,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\MinimumSpanningTree.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReadParameters.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReadProblem.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

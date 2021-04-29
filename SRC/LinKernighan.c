@@ -55,7 +55,7 @@ GainType LinKernighan()
         t2 = t1->OldSuc = t1->Suc;
         t1->OldPred = t1->Pred;
         t1->Rank = ++i;
-        Cost += (t1->SucCost = t2->PredCost = C(t1, t2)) - t1->Pi - t2->Pi;
+        Cost += (t1->SucCost = t2->PredCost = C(t1, t2)) ;
         Hash ^= Rand[t1->Id] * Rand[t2->Id];
         t1->Cost = INT_MAX;
         for (Nt1 = t1->CandidateSet; (t2 = Nt1->To); Nt1++)
