@@ -835,8 +835,8 @@ void customInput(int DIMENSION, double** weightMatrix) {
     }
 
     PostInitialization();
-    free(LastLine);
-    LastLine = 0;
+    /*free(LastLine);
+    LastLine = 0;*/
 
   
     Ni = 0;

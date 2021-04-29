@@ -5,10 +5,9 @@ TREE_TYPE = TWO_LEVEL_TREE
 CC = gcc -fPIC
 IDIR = INCLUDE
 ODIR = OBJ
-CFLAGS = -O3 -Wall -I$(IDIR) -D$(TREE_TYPE) -g -std=c99 -fPIC
-
+CFLAGS = -O3 -Wall -I$(IDIR) -D$(TREE_TYPE) -g -std=c11 -fPIC  
 _DEPS = Delaunay.h GainType.h Genetic.h GeoConversion.h Hashing.h      \
-        Heap.h LKH.h Segment.h Sequence.h gpx.h
+        Heap.h LKH.h Segment.h Sequence.h gpx.h 
 
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
@@ -44,7 +43,7 @@ _OBJ = Activate.o AddCandidate.o AddExtraCandidates.o                  \
        SolveSubproblemBorderProblems.o SolveTourSegmentSubproblems.o   \
        Statistics.o StoreTour.o SymmetrizeCandidateSet.o               \
        TrimCandidateSet.o WriteCandidates.o WritePenalties.o           \
-       WriteTour.o MergeWithTourGPX2.o gpx.o
+       WriteTour.o MergeWithTourGPX2.o gpx.o 
              
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
