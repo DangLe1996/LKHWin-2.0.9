@@ -3,9 +3,7 @@
 #include "LKHmain.h"
 
 
-#define _CRTDBG_MAP_ALLOC
 
-#include <crtdbg.h>
 /*
  * This file contains the main function of the program.
  */
@@ -14,12 +12,98 @@
     return i + j;
 }
 
-EXPORT int getCost(double** ppArr) {
+ int getCost(double** ppArr) {
     printf("cost is %f\n", ppArr[1][3]);
     return ppArr[2][6];
 }
 
-EXPORT void PythonInput(int* sequence, double** travelCost, int n_stops)
+
+void aPythonInput(int* sequence, double** travelCost, int n_stops)
+ {
+
+     printf("cost is %f\n", travelCost[1][3]);
+
+     int DIMENSION = n_stops;
+
+
+     MaxMatrixDimension = 20000;
+     MergeWithTour = Recombination == IPT ? MergeWithTourIPT :
+         MergeWithTourGPX2;
+
+     customInput(n_stops, travelCost);
+     printf("Read Good\n");
+     arunLKH();
+     printf("solved, LKH\n");
+
+     for (int i = 0; i < n_stops; i++) {
+
+         sequence[i] = BestTour[i];
+     }
+     //Do not commenents the following out. 
+     FreeStructures();
+     BestTour = 0;
+     BetterTour = 0;
+     FirstNode = 0;
+     FirstActive = 0;
+     LastActive = 0;
+     return;
+
+
+ }
+
+
+ void arunLKH() {
+     GainType Cost, OldOptimum;
+     double Time, LastTime;
+
+     StartTime = LastTime = GetTime();
+
+     AllocateStructures();
+     CreateCandidateSet();
+     InitializeStatistics();
+
+     if (Norm != 0)
+         BestCost = PLUS_INFINITY;
+     else {
+         /* The ascent has solved the problem! */
+         Optimum = BestCost = (GainType)LowerBound;
+         UpdateStatistics(Optimum, GetTime() - LastTime);
+         RecordBetterTour();
+         RecordBestTour();
+         WriteTour(OutputTourFileName, BestTour, BestCost);
+         WriteTour(TourFileName, BestTour, BestCost);
+         Runs = 0;
+         printf("The ascent has solved the problem!");
+     }
+     /* Find a specified number (Runs) of local optima */
+     for (Run = 1; Run <= Runs; Run++) {
+         LastTime = GetTime();
+         if (LastTime - StartTime >= TimeLimit) {
+             if (TraceLevel >= 1)
+                 printff("*** Time limit exceeded ***\n");
+             break;
+         }
+         Cost = FindTour();      /* using the Lin-Kernighan heuristic */
+
+         if (Cost < BestCost) {
+             BestCost = Cost;
+             RecordBetterTour();
+             RecordBestTour();
+
+         }
+
+     }
+     //PrintStatistics();
+ }
+
+
+
+
+
+
+
+
+ void PythonInput(int* sequence, double** travelCost, int n_stops)
 {
 
     printf("cost is %f\n", travelCost[1][3]);
@@ -30,7 +114,6 @@ EXPORT void PythonInput(int* sequence, double** travelCost, int n_stops)
     MaxMatrixDimension = 20000;
     MergeWithTour = Recombination == IPT ? MergeWithTourIPT :
         MergeWithTourGPX2;
-
 
     customInput(n_stops, travelCost);
     printf("Read Good\n");
@@ -53,7 +136,7 @@ EXPORT void PythonInput(int* sequence, double** travelCost, int n_stops)
 
 }
 
-EXPORT void freeme(int* sequence, double** travelCost, int n_stops)
+ void freeme(int* sequence, double** travelCost, int n_stops)
 {
     for (int i = 0; i < n_stops; i++) {
         free(travelCost[i]);

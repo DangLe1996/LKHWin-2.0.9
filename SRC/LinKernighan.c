@@ -55,7 +55,7 @@ GainType LinKernighan()
         t2 = t1->OldSuc = t1->Suc;
         t1->OldPred = t1->Pred;
         t1->Rank = ++i;
-        Cost += (t1->SucCost = t2->PredCost = C(t1, t2)) - t1->Pi - t2->Pi;
+        Cost += (t1->SucCost = t2->PredCost = C(t1, t2)) ;
         Hash ^= Rand[t1->Id] * Rand[t2->Id];
         t1->Cost = INT_MAX;
         for (Nt1 = t1->CandidateSet; (t2 = Nt1->To); Nt1++)
@@ -156,27 +156,27 @@ GainType LinKernighan()
         HashInsert(HTable, Hash, Cost);
         /* Try to find improvements using non-sequential 4/5-opt moves */
         Gain = 0;
-        if (Gain23Used && (Gain = Gain23()) > 0) {
-            /* An improvement has been found */
-#ifdef HAVE_LONG_LONG
-            assert(Gain % Precision == 0);
-#else
-            assert(fmod(Gain, Precision) == 0);
-#endif
-            Cost -= Gain / Precision;
-            StoreTour();
-            if (TraceLevel >= 3 || (TraceLevel == 2 && Cost < BetterCost)) {
-                printff("Cost = " GainFormat, Cost);
-                if (Optimum != MINUS_INFINITY && Optimum != 0)
-                    printff(", Gap = %0.4f%%",
-                            100.0 * (Cost - Optimum) / Optimum);
-                printff(", Time = %0.2f sec. + %s\n",
-                        fabs(GetTime() - EntryTime),
-                        Cost < Optimum ? "<" : Cost == Optimum ? "=" : "");
-            }
-            if (HashSearch(HTable, Hash, Cost))
-                goto End_LinKernighan;
-        }
+//        if (Gain23Used && (Gain = Gain23()) > 0) {
+//            /* An improvement has been found */
+//#ifdef HAVE_LONG_LONG
+//            assert(Gain % Precision == 0);
+//#else
+//            assert(fmod(Gain, Precision) == 0);
+//#endif
+//            Cost -= Gain / Precision;
+//            StoreTour();
+//            if (TraceLevel >= 3 || (TraceLevel == 2 && Cost < BetterCost)) {
+//                printff("Cost = " GainFormat, Cost);
+//                if (Optimum != MINUS_INFINITY && Optimum != 0)
+//                    printff(", Gap = %0.4f%%",
+//                            100.0 * (Cost - Optimum) / Optimum);
+//                printff(", Time = %0.2f sec. + %s\n",
+//                        fabs(GetTime() - EntryTime),
+//                        Cost < Optimum ? "<" : Cost == Optimum ? "=" : "");
+//            }
+//            if (HashSearch(HTable, Hash, Cost))
+//                goto End_LinKernighan;
+//        }
     }
     while (Gain > 0);
 
